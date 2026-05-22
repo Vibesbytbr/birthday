@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    @apply bg-dark3 text-white font-inter overflow-x-hidden antialiased;
+    scroll-behavior: smooth;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .text-glow-gold {
+    text-shadow: 0 0 40px rgba(244, 185, 66, 0.25), 0 0 80px rgba(244, 185, 66, 0.1);
+  }
+
+  .text-glow-orange {
+    text-shadow: 0 0 40px rgba(255, 138, 61, 0.2), 0 0 80px rgba(255, 138, 61, 0.08);
+  }
+
+  .text-glow-purple {
+    text-shadow: 0 0 40px rgba(139, 92, 246, 0.2), 0 0 80px rgba(139, 92, 246, 0.08);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 50px rgba(244, 185, 66, 0.12), 0 0 100px rgba(244, 185, 66, 0.05);
+  }
+
+  .glow-orange {
+    box-shadow: 0 0 50px rgba(255, 138, 61, 0.1), 0 0 100px rgba(255, 138, 61, 0.04);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 50px rgba(139, 92, 246, 0.1), 0 0 100px rgba(139, 92, 246, 0.04);
+  }
+
+  .glass {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-strong {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .premium-shadow {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 10px 40px -5px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.02);
+  }
+}
