@@ -112,8 +112,7 @@ export default function LandingPage() {
 
   return (
     <div
-      onClick={handleTap}
-      onTouchStart={handleTap}
+      onPointerDown={handleTap}
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden cursor-pointer select-none"
       style={{ backgroundColor: '#00033d' }}
     >
