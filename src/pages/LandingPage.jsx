@@ -33,9 +33,11 @@ export default function LandingPage() {
   const [transitioning, setTransitioning] = useState(false)
   const [showFlash, setShowFlash] = useState(false)
   const [contentReady, setContentReady] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const audioContextRef = useRef(null)
   const cardControls = useAnimation()
   const confettiRef = useRef(null)
+  const lastTapRef = useRef(0)
 
   const playKnockSound = async () => {
     try {
@@ -68,6 +70,9 @@ export default function LandingPage() {
 
   const handleTap = async (e) => {
     if (transitioning) return
+    const now = Date.now()
+    if (now - lastTapRef.current < 500) return
+    lastTapRef.current = now
     const rect = e.currentTarget.getBoundingClientRect()
     const x = (e.clientX || e.touches?.[0]?.clientX || 0) - rect.left
     const y = (e.clientY || e.touches?.[0]?.clientY || 0) - rect.top
@@ -91,16 +96,17 @@ export default function LandingPage() {
   }
 
   useEffect(() => {
-    const initConfetti = async () => {
+    const init = async () => {
       const confetti = (await import('canvas-confetti')).default
       confettiRef.current = confetti
-      // Initial burst on load
-      fireConfetti(40)
+      setLoaded(true)
+      setTimeout(() => {
+        setContentReady(true)
+        fireConfetti(30)
+      }, 300)
     }
-    initConfetti()
-    const t = setTimeout(() => setContentReady(true), 200)
+    init()
     return () => {
-      clearTimeout(t)
       if (audioContextRef.current) audioContextRef.current.close()
     }
   }, [])
@@ -116,6 +122,26 @@ export default function LandingPage() {
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden cursor-pointer select-none"
       style={{ backgroundColor: '#00033d' }}
     >
+      {/* Loading screen */}
+      <AnimatePresence>
+        {!loaded && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            style={{ backgroundColor: '#00033d' }}
+          >
+            <motion.div
+              animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-16 h-16 rounded-full border-2 border-gold-accent/30"
+              style={{ boxShadow: '0 0 40px rgba(244,185,66,0.1)' }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Background gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
